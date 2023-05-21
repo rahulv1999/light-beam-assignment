@@ -3,7 +3,7 @@ LightBeam.ai's assignment
 
 Directory Tree is a project to replicate the folder system using data structure such as trees.
 
-##Code base description
+## Code base description
 There are two classes Config and folder.
 The Folder class represent the folder of the system itself and behaves as a node of a tree data structure which has child nodes which are the sub folders inside the node folder.
 The Config class handels the following operations
