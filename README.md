@@ -1,4 +1,4 @@
-# light-beam-assignment
+# Light-beam-assignment
 LightBeam.ai's assignment
 
 Directory Tree is a project to replicate the folder system using data structure such as trees.
