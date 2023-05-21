@@ -6,6 +6,7 @@ Directory Tree is a project to replicate the folder system using data structure 
 ## Code base description
 There are two classes Config and Folder.
 The Folder class represent the folder of a system itself and behaves as a node of a tree data structure which has child nodes which are the sub folders inside the node folder.
+
 The Config class handels the following operations
   1. fetch by path of a folder
   2. add a sub folder to a path 
