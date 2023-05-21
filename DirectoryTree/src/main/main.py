@@ -9,8 +9,11 @@ root.add("root", "f3")
 root.add("root/f2", "f21")
 root.add("root/f2", "f22")
 root.print()
-root.remove("f2")
-root.add("root/f7/f1", "f2")
+# root.remove("f2")
+# root.add("root/f7/f1", "f2")
+root.print()
+print(root.fetch("f21"))
+root.update("f21", "f221")
 root.print()
     
 

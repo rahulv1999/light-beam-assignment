@@ -34,12 +34,12 @@ class Config:
         self.__removeHelper(subFolder)
         parent.removeSubFolder(subFolder.id)
 
-    def update(self, id, name):
-        subFolder = self.__getCheck(id)  
+    def update(self, folderName, name):
+        subFolder = self.__getCheckByName(folderName)  
         #check duplicacy
         _, folder = self.__getByNameHelper(self.root, name, "")
 
-        if folder is None and name != subFolder.name:
+        if folder is not None and folder.id != subFolder.id: #idempotency check -> when trying to change name with its own name
             raise Exception(f"folder with name {name} exists")
        
         subFolder.name = name 
@@ -48,13 +48,6 @@ class Config:
     def fetch(self, name):
         path, _ = self.__getByNameHelper(self.root, name, "")
         return path
-
-        
-    def __getCheck(self, id):
-        subFolder = self.__fetch(id)
-        if subFolder is None:
-            raise Exception(f"folder with id {id} not found")
-        return subFolder
 
     def __getCheckByName(self, name):
         _, subFolder = self.__getByNameHelper(self.root, name, "")
