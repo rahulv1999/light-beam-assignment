@@ -8,12 +8,18 @@ class Config:
         self.__id = 1
 
     def print(self):
-        print(self.root.subFolders)
         self.__print(self.root, 0)
 
     def add(self, parentPath, name):
-        parentName = parentPath.split(os.sep)[-1]
-        parent = self.__getCheckByName(parentName)
+        print(parentPath)
+        pathList = parentPath.split(os.sep)
+        #for base case -> root folder
+        if pathList[0] != self.root.name :
+            raise Exception("invalid path")
+
+        parent = self.__getFromPath(pathList, self.root, 0)
+        if parent is None:
+            raise Exception("invalid path")
         subFolder = folder.Folder(name, self.__id, parent)
         #duplicacy check
         if self.fetch(subFolder.name) is not None:
@@ -95,6 +101,21 @@ class Config:
         print('\t'*lvl + root.name)
         for child in root.subFolders:
             self.__print(child, lvl+1)
+
+    def __getFromPath(self, path, root, index):
+        if index == len(path):
+            return None
+        
+        if index == len(path) - 1:
+            return root
+        for child in root.subFolders:
+            if child.name == path[index+1]:
+                folder_temp = self.__getFromPath(path, child, index+1)
+                if folder_temp is not None :
+                    return folder_temp
+
+        return None
+
 
         
 
