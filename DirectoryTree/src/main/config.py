@@ -1,21 +1,24 @@
 import os
+import folder
 
 class Config:
     
-    def __init__(self, root):
-        self.root = root
-        self.id = 1
+    def __init__(self, name):
+        self.root = folder.Folder(name, 0)
+        self.__id = 1
 
     def print(self):
-        pass
+        print(self.root)
 
-    def add(self, parentPath, subFolder):
+    def add(self, parentPath, name):
         parentName = parentPath.split(os.sep)[-1]
-        parent = self.fetch(parentName)
+        parent = self.__getCheckByName(parentName)
+        subFolder = folder.Folder(name, self.__id, parent)
         #duplicacy check
         if self.fetch(subFolder.name) is not None:
             raise Exception(f"sub folder with name {subFolder.name} exists")
         parent.addSubFolder(subFolder)
+        self.__id += 1 
         return parent
 
     def remove(self, name):
@@ -30,7 +33,7 @@ class Config:
         _, folder = self.__getByNameHelper(self.root, name, "")
 
         if folder is None and name != subFolder.name:
-            raise Exception(f"sub folder with name {name} exists")
+            raise Exception(f"folder with name {name} exists")
        
         subFolder.name = name 
         return subFolder
@@ -38,17 +41,18 @@ class Config:
     def fetch(self, name):
         path, _ = self.__getByNameHelper(self.root, name, "")
         return path
+
         
     def __getCheck(self, id):
         subFolder = self.__fetch(id)
         if subFolder is None:
-            raise Exception(f"sub folder with id {id} not found")
+            raise Exception(f"folder with id {id} not found")
         return subFolder
 
     def __getCheckByName(self, name):
         _, subFolder = self.__getByNameHelper(self.root, name, "")
         if subFolder is None:
-            raise Exception(f"sub folder with name {name} not found")
+            raise Exception(f"folder with name {name} not found")
         return subFolder
 
     def __getByIdHelper(self, subFolder, id, s):
@@ -58,7 +62,7 @@ class Config:
         for sf in subFolder.subFolders:
             return self.__getByIdHelper(sf, id, os.path.join(s, subFolder.name))
 
-        return None
+        return None,None
 
     def __getByNameHelper(self, subFolder, name, s):
         if subFolder.name == name :
@@ -67,7 +71,7 @@ class Config:
         for sf in subFolder.subFolders:
             return self.__getByIdHelper(sf, name, os.path.join(s, subFolder.name))
 
-        return None
+        return None,None
 
     def __fetch(self, id):
         s = self.root.name
