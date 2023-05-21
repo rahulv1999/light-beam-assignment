@@ -3,6 +3,7 @@ import sys
 sys.path.append("../")
 sys.path.append("../../")
 
+
 from  src.main import folder
 
 class Config:
