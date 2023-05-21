@@ -1,6 +1,4 @@
-from folder import Folder
 from config import Config
-import os
 
 root = Config("root")
 root.add("root", "f1")

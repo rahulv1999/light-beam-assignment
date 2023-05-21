@@ -1,5 +1,9 @@
 import os
-import folder as folder
+import sys
+sys.path.append("../")
+sys.path.append("../../")
+
+from  src.main import folder
 
 class Config:
     
@@ -11,7 +15,6 @@ class Config:
         self.__print(self.root, 0)
 
     def add(self, parentPath, name):
-        print(parentPath)
         pathList = parentPath.split(os.sep)
         #for base case -> root folder
         if pathList[0] != self.root.name :
@@ -26,7 +29,7 @@ class Config:
             raise Exception(f"sub folder with name {subFolder.name} exists")
         parent.addSubFolder(subFolder)
         self.__id += 1 
-        return parent
+        return subFolder
 
     def remove(self, name):
         subFolder = self.__getCheckByName(name)
