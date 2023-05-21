@@ -1,5 +1,5 @@
 import os
-import folder
+import folder as folder
 
 class Config:
     
@@ -55,15 +55,14 @@ class Config:
             raise Exception(f"folder with name {name} not found")
         return subFolder
 
-    def __getByIdHelper(self, subFolder, id, s):
+    def __getByIdHelper(self, subFolder, id, path):
         if subFolder.id == id :
-            return os.path.join(s, subFolder.name), subFolder
+            return os.path.join(path, subFolder.name), subFolder
         
         for sf in subFolder.subFolders: 
-            path_temp, folder_temp = self.__getByIdHelper(sf, id, os.path.join(s, subFolder.name))
+            path_temp, folder_temp = self.__getByIdHelper(sf, id, os.path.join(path, subFolder.name))
             if folder_temp is not None:
                 return path_temp, folder_temp 
-
 
         return None,None
 
@@ -78,11 +77,6 @@ class Config:
 
         return None,None
 
-    def __fetch(self, id):
-        s = self.root.name
-        _, folder = self.__getByIdHelper(self.root, id, s)
-        return folder
-
     def __removeHelper(self, folder):
         if len(folder.subFolders) == 0:
             return 
@@ -91,7 +85,7 @@ class Config:
             folder.removeSubFolder(child.id) 
 
     def __print(self, root, lvl):        
-        print('\t'*lvl + root.name)
+        print('\t'*lvl + root.name + "," +str(root.id))
         for child in root.subFolders:
             self.__print(child, lvl+1)
 
