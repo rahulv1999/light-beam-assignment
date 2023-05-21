@@ -8,7 +8,8 @@ class Config:
         self.__id = 1
 
     def print(self):
-        print(self.root)
+        print(self.root.subFolders)
+        self.__print(self.root, 0)
 
     def add(self, parentPath, name):
         parentName = parentPath.split(os.sep)[-1]
@@ -59,8 +60,11 @@ class Config:
         if subFolder.id == id :
             return os.path.join(s, subFolder.name), subFolder
         
-        for sf in subFolder.subFolders:
-            return self.__getByIdHelper(sf, id, os.path.join(s, subFolder.name))
+        for sf in subFolder.subFolders: 
+            path_temp, folder_temp = self.__getByIdHelper(sf, id, os.path.join(s, subFolder.name))
+            if folder_temp is not None:
+                return path_temp, folder_temp 
+
 
         return None,None
 
@@ -69,7 +73,9 @@ class Config:
             return os.path.join(s, subFolder.name), subFolder
         
         for sf in subFolder.subFolders:
-            return self.__getByIdHelper(sf, name, os.path.join(s, subFolder.name))
+            path_temp, folder_temp = self.__getByNameHelper(sf, name, os.path.join(s, subFolder.name))
+            if folder_temp is not None:
+                return path_temp, folder_temp 
 
         return None,None
 
@@ -79,11 +85,16 @@ class Config:
         return folder
 
     def __removeHelper(self, folder):
-        if len(folder.subFolder) == 0:
+        if len(folder.subFolders) == 0:
             return 
         for child in folder.subFolders:
             self.__removeHelper(child)
             folder.removeSubFolder(child.id) 
+
+    def __print(self, root, lvl):        
+        print('\t'*lvl + root.name)
+        for child in root.subFolders:
+            self.__print(child, lvl+1)
 
         
 

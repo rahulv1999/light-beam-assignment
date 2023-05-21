@@ -7,7 +7,7 @@ class Folder:
 
     def addSubFolder(self, subFolder):
         self.subFolders.append(subFolder)
-        return
+        return subFolder
 
     def removeSubFolder(self, id):
         for subFolder in self.subFolders:
@@ -21,7 +21,7 @@ class Folder:
         for subFolder in self.subFolders:
             if subFolder.id == subFolderId:
                 return subFolder
-                
+
         return None
 
     def isSubFolder(self, subFolderId):
